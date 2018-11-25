@@ -8,10 +8,15 @@ Created on Fri Nov 23 23:36:21 2018
 
 import urllib.request 
 
-def GetSingleGEFSFile(FileLink,PathToWrite):
+def GetSingleGEFSFile(GEFS_URL,FileLink,PathToWrite):
+    
+    DownloadURL = GEFS_URL+FileLink
     
     try:
-        urllib.request.urlretrieve(FileLink,PathToWrite)
+        urllib.request.urlretrieve(DownloadURL,PathToWrite+'/'+FileLink)
     except urllib.request.URLError as e:
         print(e)
-        
+      
+    print('Successfully downloaded '+FileLink)
+    
+    return

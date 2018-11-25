@@ -10,13 +10,11 @@ import bs4 # BeautifulSoup4
 import sys 
 import os
 import urllib.request 
-import urllib.parse
 import numpy as np
 import shutil
-
 import GetGEFSFile
-
 from joblib import Parallel, delayed
+
 
 
 GEFS_URL_base = 'http://nomads.ncep.noaa.gov/pub/data/nccf/com/gens/prod/gefs'
@@ -30,6 +28,7 @@ fcst_cycle = int(sys.argv[1])
 year       = int(sys.argv[2])
 month      = int(sys.argv[3]) 
 day        = int(sys.argv[4])
+nProcs     = int(sys.argv[5])
 
 # Error traps
 if((fcst_cycle!=0) & (fcst_cycle!=6) & (fcst_cycle!=12) & (fcst_cycle!=18)):
@@ -76,5 +75,7 @@ for Link in GEFS_Links:
         GEFS_Files.append(FileLink)
         GEFS_PathID.append(int(FileLink[3:5]))
 
-Parallel(n_jobs=6, verbose=60, backend='threading')(delayed(GetGEFSFile.GetSingleGEFSFile)(GEFS_Files[i],WriteDirEns[GEFS_PathID[i]]) \
-         for i in len(GEFS_Files))
+print('Directory structure created. Proceeding to file download...')
+
+Parallel(n_jobs=nProcs, verbose=60, backend='threading')(delayed(GetGEFSFile.GetSingleGEFSFile)(GEFS_URL,GEFS_Files[i],WriteDirEns[GEFS_PathID[i]]) \
+         for i in np.arange(len(GEFS_Files)))
