@@ -47,7 +47,7 @@ GEFS_Soup = bs4.BeautifulSoup(GEFS_HTMP,'lxml')
 GEFS_Links = GEFS_Soup.findAll('a')
 
 WriteDir         = WriteDirBase+'/'+'gefs_'+str(year)+f'{month:02}'+f'{day:02}'
-WriteDirFcstCyc  = WriteDir+'/'+f'{fcst_cycle:02}'
+WriteDirFcstCyc  = WriteDir+'/f'+f'{fcst_cycle:02}'
 
 while True:
     try:
